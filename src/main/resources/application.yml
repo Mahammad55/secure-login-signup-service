@@ -5,3 +5,4 @@ spring:
       - db
       - mail
       - security
+      - swagger

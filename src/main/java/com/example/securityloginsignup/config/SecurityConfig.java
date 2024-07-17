@@ -33,7 +33,8 @@ public class SecurityConfig {
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("v1/auth/**").permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers("v1/auth/**","api/v1/tests/public").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -54,4 +55,20 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/*",
+            "/swagger-ui/**",
+            "/security/v1/api-docs/**",
+            "swagger/**"
+    };
 }
